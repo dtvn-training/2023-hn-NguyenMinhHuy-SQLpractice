@@ -95,5 +95,12 @@ VALUES
 CREATE VIEW test_view AS 
 SELECT order_id, user_id
 FROM orders
-WHERE order_id > 5
+WHERE order_id > 5;
+ 
+CREATE INDEX idx_user_id ON users (user_id);
 
+EXPLAIN 
+SELECT u.user_id, u.first_name, u.last_name, o.order_id, o.product_ordered 
+FROM users u 
+JOIN orders o ON u.user_id = o.user_id
+WHERE u.user_id > 4;
