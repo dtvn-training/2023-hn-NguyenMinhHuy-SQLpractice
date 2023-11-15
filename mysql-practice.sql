@@ -184,3 +184,19 @@ JOIN orders o ON u.user_id = o.user_id
 WHERE o.user_id = 1 OR o.product_ordered = 1
 GROUP BY user_id;
 
+START TRANSACTION;
+SELECT user_id FROM users FOR UPDATE;
+UPDATE users SET last_name = 'Austen' WHERE first_name = 'Jane';
+COMMIT;
+
+START TRANSACTION;
+SELECT user_id FROM users FOR UPDATE;
+UPDATE users SET last_name = 'Clara' WHERE first_name = 'Jane';
+COMMIT;
+
+-- Start a transaction and lock the table for update
+START TRANSACTION;
+LOCK TABLES users WRITE;
+UPDATE users SET address = '4 Privet Drive' WHERE user_id = 1;
+COMMIT;
+UNLOCK TABLES;
